@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semáforo</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        background-color: azure;
+    }
+    main {
+        display: flex;
+        height: 100vh;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5vh;
+    }
+    .button{
+        width: 85px;
+        padding: 8px;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        background-color: black;
+        cursor:pointer;
+    }
+</style>
+<body>
+    <main>
+        <div>
+            <img src="/img/desligado.png" id='img' >
+        </div>
+        <div id='buttons'>
+            <button id='red' class="button" >Vermelho</button>
+            <button id='yellow' class="button" >Amarelo</button>
+            <button id='green' class="button" >Verde</button>
+            <button name='teste' id='automatic' class="button" >Automático</button>
+        </div>
+    </main>
+</body>
+<script>
+    const img = document.getElementById('img');
+    const buttons = document.getElementById('buttons');
+    let colorIndex = 0;
+    let intervalId = null;
+
+    const trafficLight = ( event ) => {
+    stopAutomatic();
+    turnOn[event.target.id]();
+    }
+
+    const nextIndex = () => colorIndex = colorIndex < 2 ? ++colorIndex : 0;
+
+    const changeColor = () => {
+    const colors = ['red','yellow','green']
+    const color = colors[ colorIndex ];
+    turnOn[color]();
+    nextIndex();
+    }
+
+    const stopAutomatic = () => {
+    clearInterval ( intervalId );
+    }
+
+    const turnOn = {
+    'red':      () => img.src = "/img/vermelho.png",
+    'yellow':   () => img.src = '/img/amarelo.png',
+    'green':    () => img.src = '/img/verde.png',
+    'automatic': () => intervalId = setInterval( changeColor, 1000 )
+    }
+
+    buttons.addEventListener('click', trafficLight );
+
+</script>
+</html>
