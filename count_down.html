@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CountDown</title>
+</head>
+<style>
+    *{
+        margin:0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body{
+        background-color: purple;
+        color: whitesmoke;
+        font-family: 'Montserrat', sans-serif;
+        user-select: none;
+    }
+    .container{
+        display: flex;
+        flex-direction: column;
+        width: 100vw;
+        height: 100vh;
+        align-items: center;
+        justify-content: space-evenly;
+        text-align: center;
+        background-color: #00000080;
+    }
+    .title {
+        font-size: 60px;
+    }
+
+    .title p {
+        font-size: 25px;
+        color: rgb(172, 0, 172);
+    }
+    .countdown{
+        display: flex;
+        width: 60vw;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    .countdown h1{
+        font-size: calc(10px + 8vw);
+        text-shadow: 0 0 10px  whitesmoke;
+    }
+    .button{
+        background-color: whitesmoke;
+        color: black;
+        padding: 15px;
+        border-radius: 15px;
+        cursor: pointer;
+        border: solid 2px whitesmoke;
+    }
+
+    .button:hover {
+        background-color: rgb(172, 0, 172);
+        color: whitesmoke;
+    } 
+</style>
+<body>
+    <div class="container">
+        <div class='title'>
+            <h1>LIVE</h1>
+            <p>em breve</p>
+        </div>
+
+        <div class="countdown">
+            <div >
+                <h1 id="dias">00</h1>
+                <p>Dias</p>
+            </div>
+            <div>
+                <h1 id="horas">00</h1>
+                <p>Horas</p>
+            </div>
+            <div>
+                <h1  id="minutos">00</h1>
+                <p>Minutos</p>
+            </div>
+            <div>
+                <h1 id="segundos">00</h1>
+                <p>Segundos</p>
+            </div>
+        </div>
+
+        <div class='button'>
+            <p>Cadastre-se</p>
+        </div>
+    </div>
+</body>
+<script>
+    const formatarDigito = (digito) => `0${digito}`.slice(-2);
+
+    const atualizar = (tempo) => {
+    const segundos = document.getElementById('segundos');
+    const minutos = document.getElementById('minutos');
+    const horas = document.getElementById('horas');
+    const dias = document.getElementById('dias');
+
+    const qtdSegundos = tempo % 60;
+    const qtdMinutos = Math.floor((tempo % (60 * 60)) / 60);
+    const qtdHoras = Math.floor((tempo % (60 * 60 * 24)) / (60 * 60));
+    const qtdDias = Math.floor(tempo / (60 * 60 * 24));
+
+    segundos.textContent = formatarDigito(qtdSegundos);
+    minutos.textContent = formatarDigito(qtdMinutos);
+    horas.textContent = formatarDigito(qtdHoras);
+    dias.textContent = formatarDigito(qtdDias);
+    }
+
+    const contagemRegressiva = (tempo) => {
+    const pararContagem = () => clearInterval(id);
+
+    const contar = () => {
+        if (tempo === 0 ){
+            pararContagem();
+        }
+        atualizar (tempo);
+        tempo--;
+    }
+    const id = setInterval(contar,1000);
+    }
+
+    const tempoRestante = () => {
+    const dataEvento = new Date ('2023-10-29 20:00:00');
+    const hoje = Date.now();
+    return Math.floor((dataEvento - hoje) / 1000);
+    }
+
+    contagemRegressiva(tempoRestante());
+</script>
+</html>
